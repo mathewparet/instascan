@@ -7,22 +7,36 @@ Real-time webcam-driven HTML5 QR code scanner.
 
 ### NPM
 
-`npm install --save instascan`
+`npm install --save @mathewparet/instascan`
 
 ```javascript
-var Instascan = require('instascan');
+import Instascan from '@mathewparet/instascan'
 ```
 
-### Bower
+### Known issue with Webpack
 
-Pending. [Drop a note](https://github.com/schmich/instascan/issues/31) if you need Bower support.
+There is a known issue with Webpack. So if you are using webpack you need to add the below to your webpack.config.js file.
 
-### Minified
+```js
+/**
+ * Fix for instascan as detailed in https://github.com/webpack-contrib/css-loader/issues/447#issuecomment-285600014
+ */
+node: {
+      fs: "empty"
+}
+```
 
-Copy `instascan.min.js` from the [releases](https://github.com/schmich/instascan/releases) page and load with:
+If you are using Laravel Mix you can add it to the ```webpack.mix.js``` file in your root:
 
-```html
-<script type="text/javascript" src="instascan.min.js"></script>
+```js
+/**
+ * Fix for instascan as detailed in https://github.com/webpack-contrib/css-loader/issues/447#issuecomment-285600014
+ */
+mix.webpackConfig({
+   node: {
+      fs: "empty"
+   }
+});
 ```
 
 ## Example
@@ -32,11 +46,11 @@ Copy `instascan.min.js` from the [releases](https://github.com/schmich/instascan
 <html>
   <head>
     <title>Instascan</title>
-    <script type="text/javascript" src="instascan.min.js"></script>
   </head>
   <body>
     <video id="preview"></video>
     <script type="text/javascript">
+      import Instascan from '@mathewparet/instascan'
       var scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
       scanner.addListener('scan', function (content, image) {
         console.log(content);
